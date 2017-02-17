@@ -1,0 +1,59 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+
+{%block content%}
+    {%if user.is_superuser%}
+        <div class="well">
+            <h4>Поставки продукції до магазинів</h4>
+        </div>
+
+    <a href = "/create_new_send/" class="btn btn-primary" type="button">Оформити нове відправлення</a>
+
+        {%if sendToShop%}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="20%">Дата</th>
+                        <th width="30%">Магазин</th>
+                        <th width="30%">Відправник</th>
+                        <th width="10%"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for sts in sendToShop%}
+                        <tr>
+                            <td>{{sts.DateTime}}</td>
+                            <td>{{sts.Shop_id}}</td>
+                            <td>{{sts.User_id.last_name}} {{sts.User_id.first_name}}</td>
+                            <td><a href = "/view_send_to_shop/{{sts.id}}/" class="btn btn-primary" type="button">Переглянути</a></td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        {%endif%}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if sendToShop.has_previous %}
+                    <a href="?page={{ sendToShop.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ sendToShop.number }} of {{ sendToShop.paginator.num_pages }}.
+                </span>
+
+                {% if sendToShop.has_next %}
+                    <a href="?page={{ sendToShop.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+
+
+    {%else%}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Увага!</h4>
+            Для повноцінної роботи з системою Вам необхідно авторизуватися.
+        </div>
+    {%endif%}
+{%endblock%}

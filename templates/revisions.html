@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+
+{%block content%}
+    {%if user.is_superuser%}
+        <div class="well">
+            <h4>Ревізії</h4>
+        </div>
+
+        {%if revisions%}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="30%">Дата</th>
+                        <th width="60%">Ревізор</th>
+                        <th width="10%"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for revision in revisions%}
+                        <tr>
+                            <td>{{revision.DateTime}}</td>
+                            <td>{{revision.User_id.last_name}} {{revision.User_id.first_name}}</td>
+                            <td><a href = "/view_revision_info/{{revision.id}}/" class="btn btn-primary" type="button">Переглянути</a></td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        {%endif%}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if revisions.has_previous %}
+                    <a href="?page={{ revisions.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ revisions.number }} of {{ revisions.paginator.num_pages }}.
+                </span>
+
+                {% if revisions.has_next %}
+                    <a href="?page={{ revisions.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+
+
+    {%else%}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Увага!</h4>
+            Для повноцінної роботи з системою Вам необхідно авторизуватися.
+        </div>
+    {%endif%}
+{%endblock%}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <title>Пекарня</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="Vadym Lytvyn|Email: vadyavl@gmail.com">
+
+        <!-- Le styles -->
+        <link href="{%static "css/bootstrap.css"%}" rel="stylesheet">
+        <style>
+          body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+        </style>
+        <link href="{%static "css/bootstrap-responsive.css"%}" rel="stylesheet">
+
+
+        <!-- Підключаємо jQuery -->
+        <script src="{%static "js/jquery-3.1.1.min.js"%}"></script>
+        <script src="{%static "js/bootstrap.js"%}"></script>
+        <script src="{%static "js/myjs.js"%}"></script>
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="brand" href="/">Керування магазинами</a>
+              <div class="nav-collapse collapse">
+                <ul class="nav">
+                  <li id="1"><a href="/admin/">Панель адміністрування</a></li>
+                </ul>
+              </div><!--/.nav-collapse -->
+
+            <form class="navbar-form pull-right">
+            {% if user.username %}
+              <a href="/auth/logout/" class="btn">Вийти <b>{{user.username}}</b></a>
+            {% else %}
+              <a href="/auth/login/" class="btn">Увійти</a>
+            {% endif %}
+            </form>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+        <div class="row">
+            <div class="span2">
+              <ul class="nav nav-list">
+              {%if user.is_superuser%}
+              <li class="nav-header">Меню</li>
+              <li><a href="/">Головна</a></li>
+              <li><a href="/invoices/">Накладні</a></li>
+
+              <li class="nav-header">Керування</li>
+              <li><a href="/shops/">Магазини</a></li>
+              <li><a href="/products/">Продукти</a></li>
+              <li><a href="/vendors/">Продавці</a></li>
+
+              <li class="nav-header">Контроль</li>
+              <li><a href="/revisions/">Ревізії</a></li>
+              <li><a <!--href="/graphics/"-->>Графіки (coming soon)</a></li>
+
+              {%endif%}
+              </ul>
+            </div>
+            <div class="span10">
+                    {%block content%}
+
+                    {%endblock%}
+
+
+                    {%block login%}
+
+                    {%endblock%}
+            </div>
+        </div>
+        </div> <!-- /container -->
+
+
+
+
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster
+        <script src="{%static "js/bootstrap.js"%}"></script>-->
+
+    </body>
+
+</html>

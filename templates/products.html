@@ -1,0 +1,67 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+    <div class="well">
+     <h4>Продукція</h4>
+    </div>
+
+{%if products%}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="15%">Фото</th>
+          <th width="5%">ID</th>
+          <th width="25%">Назва</th>
+          <th width="40%">Опис</th>
+          <th width="10%">Ціна</th>
+          <th width="5%"> </th>
+        </tr>
+      </thead>
+      <tbody>
+    {%for product in products%}
+        <tr>
+            <td><img target="_blank" src="{{product.Photo}}" width="150"/></td>
+            <td>{{product.id}}</td>
+            <td>{{product.Title}}</td>
+            <td>{{product.Description}}</td>
+            <td>{{product.Price}}</td>
+            <td><a href = "/edit_product/{{product.id}}/" class="btn btn-primary" type="button">Редагувати</a></td>
+        </tr>
+    {%endfor%}
+      </tbody>
+    </table>
+{%endif%}
+
+     <!-- Button to trigger modal -->
+    <a href="#myModal" role="button" class="btn" data-toggle="modal">Додати продукцію</a>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Додавання продукції</h3>
+      </div>
+      <div class="modal-body">
+          <form method="post" id="form1"  enctype="multipart/form-data">{% csrf_token %}
+            {{form}}
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Відміна</button>
+        <button form="form1" type="submit" class="btn btn-primary">Зберегти</button>
+      </div>
+    </div>
+
+
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}

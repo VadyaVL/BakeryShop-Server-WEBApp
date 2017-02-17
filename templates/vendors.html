@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+    <div class="well">
+     <h4>Продавці</h4>
+    </div>
+
+    {%if users%}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="10%">Логін</th>
+          <th width="30%">Ім'я</th>
+          <th width="50%">Прізвище</th>
+        </tr>
+      </thead>
+      <tbody>
+    {%for us in users%}
+        <tr>
+            <td>{{us.username}}</td>
+            <td>{{us.first_name}}</td>
+            <td>{{us.last_name}}</td>
+        </tr>
+    {%endfor%}
+      </tbody>
+    </table>
+    {%endif%}
+
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Додавати нових продавців може лише супер користувач через <a href="/admin/">адмін-панель</a>.
+</div>
+
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}

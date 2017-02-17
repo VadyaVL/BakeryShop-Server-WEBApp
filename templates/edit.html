@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+    <div class="well">
+     <h4>{{whatEdit}}</h4>
+    </div>
+
+          <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{form}}
+              <br/>
+              <a class="btn" href="/shops/">Відміна</a>
+              <input title="Зберегти" type="submit" class="btn btn-primary"/>
+          </form>
+
+
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}

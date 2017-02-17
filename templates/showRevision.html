@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+    <div class="well">
+     <h4>Ревізія № {{revision.id}}</h4>
+        <p><b>Ревізор:</b> {{revision.User_id.last_name}} {{revision.User_id.first_name}}</p>
+        <p><b>Магазин:</b> {{shop}}</p>
+        <p><b>Дата проведення ревізії:</b> {{revision.DateTime}}</p>
+    </div>
+
+    <h4>Результат ревізії</h4>
+   {%if productToShop%}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="60%">Найменування</th>
+          <th width="20%">Проскановано</th>
+          <th width="20%">Відсутньо</th>
+        </tr>
+      </thead>
+      <tbody>
+    {%for pts, value in productToShop.items%}
+        <tr>
+            <td>{{pts}}</td>
+            <td>{{value.0}}</td>
+            <td>{{value.1}}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <details>
+                    <summary>Штрих-коди</summary>
+                    {% for bar in value.2 %}
+                    {% if bar.OK %}
+                        <p style="color:black;">{{bar.BarCode.id}}</p>
+                    {% else %}
+                        <p style="color:red;">{{bar.BarCode.id}}</p>
+                    {%endif%}
+                    {% endfor %}
+                </details>
+            </td>
+        </tr>
+    {%endfor%}
+      </tbody>
+    </table>
+    {%endif%}
+
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}

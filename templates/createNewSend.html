@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+<form method="post">{% csrf_token %}
+    <div class="well">
+     <h4>Оформлення нового відправлення</h4>
+        <p><b>Відправник:</b> {{user.last_name}} {{user.first_name}}</p>
+        <p id="date"></p>
+        <p><b>Магазин:</b>
+            <select name="shop_ch">
+                {%for shop in shops%}
+                <option value="{{shop.id}}">{{shop}}</option>
+                {%endfor%}
+            </select>
+        </p>
+
+    </div>
+
+    <h4>Продукція</h4>
+        {%if products%}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th width="15%">Фото</th>
+                  <th width="5%">ID</th>
+                  <th width="55%">Назва</th>
+                  <th width="20%">Ціна</th>
+                  <th width="5%">Кількість</th>
+                </tr>
+              </thead>
+              <tbody>
+            {%for product in products%}
+                <tr>
+                    <td><img target="_blank" src="{{product.Photo}}" width="150"/></td>
+                    <td>{{product.id}}</td>
+                    <td>{{product.Title}}</td>
+                    <td>{{product.Price}}</td>
+                    <td><input name="count_{{product.id}}" id="count_{{product.id}}" type="number" value="0" min="0" max="10000" step="1" /></td>
+                </tr>
+            {%endfor%}
+              </tbody>
+            </table>
+        {%endif%}
+        <input title="Сформувати" type="submit" class="btn btn-primary"/>
+</form>
+<script>
+document.getElementById("date").innerHTML = "<b>Дата оформлення: </b> "+ (new Date()).toISOString().slice(0, 10);;
+</script>
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}

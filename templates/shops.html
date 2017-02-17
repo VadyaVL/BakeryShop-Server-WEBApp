@@ -1,0 +1,64 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_superuser%}
+    <div class="well">
+     <h4>Магазини</h4>
+    </div>
+
+    {%if shops%}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="10%">ID</th>
+          <th width="30%">Назва</th>
+          <th width="30%">Адреса</th>
+          <th width="20%"> </th>
+          <th width="10%"> </th>
+        </tr>
+      </thead>
+      <tbody>
+    {%for shop in shops%}
+        <tr>
+            <td>{{shop.id}}</td>
+            <td>{{shop.Name}}</td>
+            <td>{{shop.Address}}</td>
+            <td><a href = "/view_shop/{{shop.id}}/" class="btn btn-primary" type="button">Стан складу</a></td>
+            <td><a href = "/edit_shop/{{shop.id}}/" class="btn btn-primary" type="button">Редагувати</a></td>
+        </tr>
+    {%endfor%}
+      </tbody>
+    </table>
+    {%endif%}
+
+     <!-- Button to trigger modal -->
+    <a href="#myModal" role="button" class="btn" data-toggle="modal">Додати магазин</a>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Додавання магазину</h3>
+      </div>
+      <div class="modal-body">
+          <form method="post" id="form1">{% csrf_token %}
+            {{form}}
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Відміна</button>
+        <button form="form1" type="submit" class="btn btn-primary">Зберегти</button>
+      </div>
+    </div>
+
+{%else%}
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Увага!</h4>
+  Дана сторінка доступна лише авторизованим користувачам.
+</div>
+{%endif%}
+
+
+
+{%endblock%}
